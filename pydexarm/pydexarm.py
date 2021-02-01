@@ -128,7 +128,7 @@ class Dexarm:
             x, y, z (int): the position, in millimeters by default. Units may be set to inches by G20. Note that the center of y axis is 300mm.
             feedrate (int): sets the feedrate for all subsequent moves
         """
-        move_to(self, x=x, y=y, z=z, feedrate=feedrate, mode="G0", wait=wait)
+        self.move_to(x=x, y=y, z=z, feedrate=feedrate, mode="G0", wait=wait)
 
     def get_current_position(self):
         """
@@ -159,7 +159,7 @@ class Dexarm:
                 if serial_str.find("ok") > -1:
                     return x, y, z, e, a, b, c
 
-    def dealy_ms(self, value):
+    def delay_ms(self, value):
         """
         Pauses the command queue and waits for a period of time in ms
 
@@ -168,7 +168,7 @@ class Dexarm:
         """
         self._send_cmd("G4 P" + str(value) + '\r')
 
-    def dealy_s(self, value):
+    def delay_s(self, value):
         """
         Pauses the command queue and waits for a period of time in s
 
@@ -258,7 +258,8 @@ class Dexarm:
         Stop the belt
         """
         self._send_cmd("M2013\r")
-
+    def read_encoder(self):
+        self._send_cmd("M893\r")
     def close(self):
         """
         Release the serial port.
